@@ -1,9 +1,11 @@
 $(document).ready(function() {
+  console.log("get");
   function getArticles() {
     $.ajax({
       method: 'GET',
       url: '/articles'
     }).then(function(dbArticles) {
+      console.log(dbArticles);
       dbArticles.forEach(article => {
         $('<li>')
           .addClass('list-group-item article')
@@ -15,6 +17,8 @@ $(document).ready(function() {
   }
 
   $('#articles').on('click', '.article', function() {
+
+    console.log("articles");
 
     const articleId = $(this).attr('data-id');
     $('#note-title').val('');
@@ -35,6 +39,7 @@ $(document).ready(function() {
   });
 
   $('#submit-note').on('click', function(e) {
+    console.log("note");
     e.preventDefault();
 
     const articleId = $(this).attr('data-id');
