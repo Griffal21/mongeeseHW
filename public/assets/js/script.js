@@ -3,8 +3,9 @@ $(document).ready(function() {
   function getArticles() {
     $.ajax({
       method: 'GET',
-      url: '/articles'
+      url: '/scrape'
     }).then(function(dbArticles) {
+      console.log(dbArticles.length);
       console.log(dbArticles);
       dbArticles.forEach(article => {
         $('<li>')
@@ -13,6 +14,7 @@ $(document).ready(function() {
           .attr('data-id', article._id)
           .appendTo($('#articles'));
       });
+      
     });
   }
 

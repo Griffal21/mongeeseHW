@@ -34,7 +34,7 @@ mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
   // First, we grab the body of the html with axios
-  axios.get("http://www.nytimes.com/").then(function (response) {
+  axios.get("http://www.echojs.com/").then(function (response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
     const articleArr = [];
@@ -42,6 +42,7 @@ app.get("/scrape", function (req, res) {
     $("article h2").each(function (i, element) {
       // Save an empty result object
       var result = {};
+      
 
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this)
@@ -52,11 +53,11 @@ app.get("/scrape", function (req, res) {
         .attr("href");
 
       articleArr.push(result);
-     
+      console.log(articleArr);
     });
 
     db.Article.create(articleArr)
-      .then(() => res.send("Scrape Complete"))
+      .then((dbArticles) => res.json(dbArticles))
       .catch(err => {
         console.log(err);
         res.json(err);
